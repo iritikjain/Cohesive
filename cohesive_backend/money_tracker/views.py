@@ -133,6 +133,14 @@ class TransactionView(APIView):
             data = Transaction.objects.filter(createdBy=request.user.id)
             print(data)
             serializer = TransactionSerializer(data, many= True)
+            print(serializer.data[0]["logs"])
+            for n in range(len(serializer.data)):
+                serializer.data[n]['payee'] = serializer.data[n]["logs"][0]['payee']
+                serializer.data[n]['amount'] = serializer.data[n]["logs"][0]['amount']
+                newPayers = []
+                for m in serializer.data[n]["logs"]:
+                    newPayers.append(m["payers"])
+                serializer.data[n]['payers'] = ",".join(newPayers)
         return Response(serializer.data)
     
     def post(self, request):
@@ -186,7 +194,7 @@ class TransactionView(APIView):
         data['amount'] = data['totalAmount']/no_of_payers
         del data['category']
         del data['totalAmount']
-        del data['createdBy']
+        # del data['createdBy']
         del data['payers'] 
         mydata = Log.objects.filter(transactionId=pk).values()
         print(mydata)

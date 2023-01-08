@@ -50,7 +50,8 @@ const UpdateTransactionModal = (props) => {
                             </Form.Group>
                             <Form.Group controlId="payers" className="my-2">
                                     <Form.Label>Payers' Username</Form.Label>
-                                    <Form.Control type="text" name="payers" required placeholder="" />
+                                    <Form.Control type="text" name="payers" required 
+                                    defaultValue={props.transaction.payers} placeholder="" />
                             </Form.Group>
                             <Form.Group>
                                 <p></p>
